@@ -18,7 +18,6 @@ class ProdutoActivity : AppCompatActivity() {
 
         // Configurar eventos de clique para os botões
         binding.btnCadastrarProduto.setOnClickListener {
-            // Criar o Intent para abrir a tela de Cadastrar Produto
             var intent = Intent(this, CadastrarProdutoActivity::class.java)
             startActivity(intent)
         }
