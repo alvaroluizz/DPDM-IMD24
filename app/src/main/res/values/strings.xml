@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">ProjetoDispositivos</string>
+    <string name="entrar">Entrar</string>
+    <string name="senha">Senha</string>
+    <string name="login">Login</string>
+    <string name="imdmarket">IMDMARKET</string>
+    <string name="esqueci_minha_senha_login">Esqueci minha senha/login</string>
+    <string name="esquecisenhalogin">Esqueci minha senha/login</string>
+    <string name="entrarbotao">Entrar</string>
+    <string name="senhacampo">Senha</string>
+    <string name="logincampo">Login</string>
+    <string name="imdmarketnomeloja">IMDMARKET</string>
+</resources>
