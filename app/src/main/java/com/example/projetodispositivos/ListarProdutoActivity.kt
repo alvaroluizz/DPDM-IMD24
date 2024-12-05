@@ -23,6 +23,5 @@ class ListarProdutoActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
     }
 }
