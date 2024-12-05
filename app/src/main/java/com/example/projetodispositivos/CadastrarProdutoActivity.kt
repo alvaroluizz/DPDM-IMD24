@@ -43,7 +43,6 @@ class CadastrarProdutoActivity : AppCompatActivity() {
 
         // Configurar evento do botão Limpar
         binding.btnLimpar.setOnClickListener {
-            // Limpar os campos de texto
             binding.etCodigoProduto.text.clear()
             binding.etNomeProduto.text.clear()
             binding.etDescricaoProduto.text.clear()
