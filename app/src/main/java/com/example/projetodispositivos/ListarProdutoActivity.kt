@@ -24,6 +24,5 @@ class ListarProdutoActivity : AppCompatActivity() {
             finish()
         }
 
-        // Aqui você pode configurar a ListView com os dados, se necessário.
     }
 }
