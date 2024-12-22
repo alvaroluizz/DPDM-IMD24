@@ -45,7 +45,6 @@ class AlterarProdutoActivity : AppCompatActivity() {
 
         // Configura o botão Limpar
         binding.btnLimpar2.setOnClickListener {
-            // Limpa todos os campos
             binding.etCodigoProduto2.text.clear()
             binding.etCodigoProduto3.text.clear()
             binding.etCodigoProduto4.text.clear()
