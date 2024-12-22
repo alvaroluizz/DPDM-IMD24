@@ -1,5 +1,6 @@
 package com.example.projetodispositivos
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +11,9 @@ class CadastrarProdutoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCadastrarProdutoBinding
 
+    // Lista de produtos armazenada globalmente
+    private val listaProdutos = mutableListOf<Produto>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -17,7 +21,9 @@ class CadastrarProdutoActivity : AppCompatActivity() {
         binding = ActivityCadastrarProdutoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configurar evento do botão Salvar
+        // Carregar os produtos armazenados no SharedPreferences
+        carregarProdutos()
+
         binding.btnSalvar.setOnClickListener {
             var codigoProduto = binding.etCodigoProduto.text.toString()
             var nomeProduto = binding.etNomeProduto.text.toString()
@@ -32,11 +38,19 @@ class CadastrarProdutoActivity : AppCompatActivity() {
                 // Exibir Toast de sucesso
                 Toast.makeText(this, "Produto salvo com sucesso!", Toast.LENGTH_SHORT).show()
 
-                // Redirecionar para a tela de Menu (ProdutoActivity)
+                // Criar o objeto Produto
+                var produto = Produto(codigoProduto, nomeProduto, descricaoProduto, estoque.toIntOrNull() ?: 0)
+
+                // Adicionar o novo produto à lista
+                listaProdutos.add(produto)
+
+                // Salvar todos os produtos atualizados
+                salvarProdutos()
+
+                // Redireciona para a tela ProdutoActivity
                 var intent = Intent(this, ProdutoActivity::class.java)
                 startActivity(intent)
 
-                // Finalizar a tela de Cadastro de Produto
                 finish()
             }
         }
@@ -49,5 +63,39 @@ class CadastrarProdutoActivity : AppCompatActivity() {
             binding.etDescricaoProduto.text.clear()
             binding.etEstoque.text.clear()
         }
+    }
+
+    // Função para carregar os produtos do SharedPreferences
+    private fun carregarProdutos() {
+        var sharedPreferences = getSharedPreferences("produtos", Context.MODE_PRIVATE)
+        var produtoList = sharedPreferences.getStringSet("lista_produtos", mutableSetOf()) ?: mutableSetOf()
+
+        // Limpar a lista antes de adicionar novos produtos
+        listaProdutos.clear()
+
+        // Converte as strings para objetos Produto e adiciona à lista
+        produtoList.mapNotNull {
+            var parts = it.split(";")
+            if (parts.size == 4) {
+                Produto(parts[0], parts[1], parts[2], parts[3].toIntOrNull() ?: 0)
+            } else {
+                null
+            }
+        }.also { listaProdutos.addAll(it) }
+    }
+
+    // Função para salvar todos os produtos no SharedPreferences
+    private fun salvarProdutos() {
+        var sharedPreferences = getSharedPreferences("produtos", Context.MODE_PRIVATE)
+        var editor = sharedPreferences.edit()
+
+        // Converte a lista de objetos Produto para strings
+        val produtoList = listaProdutos.map {
+            "${it.codigoProduto};${it.nomeProduto};${it.descricaoProduto};${it.estoque}"
+        }.toMutableSet()
+
+        // Salva a lista atualizada de produtos no SharedPreferences
+        editor.putStringSet("lista_produtos", produtoList)
+        editor.apply()
     }
 }
